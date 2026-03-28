@@ -30,7 +30,7 @@ const AuthModal = () => {
 
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-      const url = `http://localhost:5000${endpoint}`; // You can swap this with process.env if deployed
+      const url = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}${endpoint}`; // You can swap this with process.env if deployed
 
       const bodyData = isLogin 
         ? { email: formData.email, password: formData.password }

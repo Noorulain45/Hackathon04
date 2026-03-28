@@ -50,7 +50,7 @@ const ManageContent = () => {
   const handleDelete = async (id) => {
     if(!window.confirm("Are you sure you want to delete this video?")) return;
     try {
-       const res = await fetch(`http://localhost:5000/api/videos/${id}`, {
+       const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/videos/${id}`, {
          method: 'DELETE',
          headers: {
            Authorization: `Bearer ${user.token}`
@@ -67,7 +67,7 @@ const ManageContent = () => {
   const handleToggleVisibility = async (video) => {
     try {
       const newVisibility = video.visibility === 'public' ? 'private' : 'public';
-      const res = await fetch(`http://localhost:5000/api/videos/${video._id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/videos/${video._id}`, {
          method: 'PUT',
          headers: {
            'Content-Type': 'application/json',

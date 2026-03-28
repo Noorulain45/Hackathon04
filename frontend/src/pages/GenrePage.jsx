@@ -13,7 +13,7 @@ const GenrePage = () => {
     const fetchGenreVideos = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`http://localhost:5000/api/videos?genre=${encodeURIComponent(genreName)}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/videos?genre=${encodeURIComponent(genreName)}`);
         if (res.ok) {
           const data = await res.json();
           setVideos(data);
