@@ -21,7 +21,7 @@ const MovieDetail = () => {
   const handlePlayClick = () => {
      if (!user) {
         setIsAuthModalOpen(true);
-     } else if (isPremiumMovie && (!user.subscription?.isActive || user.subscription?.plan === 'basic')) {
+     } else if (isPremiumMovie && user.role !== 'admin' && (!user.subscription?.isActive || user.subscription?.plan === 'basic')) {
         setIsSubModalOpen(true);
      } else {
         setIsPlaying(true);
@@ -76,7 +76,7 @@ const MovieDetail = () => {
                     onClick={handlePlayClick}
                     className="bg-brand-red hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg flex items-center gap-2 transition-all shadow-lg"
                   >
-                    {isPremiumMovie && (!user || !user.subscription?.isActive || user.subscription?.plan === 'basic') ? (
+                    {isPremiumMovie && user?.role !== 'admin' && (!user || !user.subscription?.isActive || user.subscription?.plan === 'basic') ? (
                        <><Lock size={18} className="mr-1" /> Unlock to Play</>
                     ) : (
                        <><Play fill="currentColor" size={20} /> Play Now</>

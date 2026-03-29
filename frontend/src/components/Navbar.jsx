@@ -38,9 +38,11 @@ const Navbar = () => {
         <NavLink to="/support" className={navLinkClass}>
           Support
         </NavLink>
-        <NavLink to="/subscriptions" className={navLinkClass}>
-          Subscriptions
-        </NavLink>
+        {user?.role !== 'admin' && (
+          <NavLink to="/subscriptions" className={navLinkClass}>
+            Subscriptions
+          </NavLink>
+        )}
       </div>
 
       {/* Right Icons */}

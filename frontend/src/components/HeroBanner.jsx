@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Play } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const mockImages = [
   'https://image.tmdb.org/t/p/w200/hYqOjJ7Gh1fbqXrxlIao1g8ZehF.jpg',
@@ -13,6 +14,7 @@ const mockImages = [
 
 const HeroBanner = () => {
   const { user, setIsAuthModalOpen, setIsSubModalOpen } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   return (
     <div className="relative w-full h-[600px] md:h-[800px] overflow-hidden">
@@ -43,7 +45,7 @@ const HeroBanner = () => {
         <button 
           onClick={() => {
             if (!user) setIsAuthModalOpen(true);
-            else if (!user.subscription?.isActive) setIsSubModalOpen(true);
+            else if (user.role !== 'admin' && !user.subscription?.isActive) setIsSubModalOpen(true);
             else navigate('/movies');
           }}
           className="bg-brand-red hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg flex items-center gap-2 transition-all"

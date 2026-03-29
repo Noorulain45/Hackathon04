@@ -27,7 +27,7 @@ const MoviesShows = () => {
   const [movies, setMovies] = React.useState([]);
 
   React.useEffect(() => {
-    fetch('http://localhost:5000/api/videos')
+    fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5000"}`}/api/videos`)
       .then(res => res.json())
       .then(data => {
          // assign fixed demo link for all

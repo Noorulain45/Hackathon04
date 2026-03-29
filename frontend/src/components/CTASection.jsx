@@ -57,7 +57,7 @@ const CTASection = () => {
             <button 
               onClick={() => {
                  if (!user) setIsAuthModalOpen(true);
-                 else if (!user.subscription?.isActive) setIsSubModalOpen(true);
+                 else if (user.role !== 'admin' && !user.subscription?.isActive) setIsSubModalOpen(true);
                  else navigate('/movies');
               }}
               className="bg-brand-red hover:bg-red-700 text-white font-semibold py-4 px-8 rounded-lg shadow-lg transition-transform hover:scale-105 active:scale-95 whitespace-nowrap"

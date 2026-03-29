@@ -9,7 +9,8 @@ const ManageUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/users', {
+      if(!user?.token) return;
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/users`, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       if(res.ok) {
@@ -23,9 +24,10 @@ const ManageUsers = () => {
   };
 
   useEffect(() => {
-    fetchUsers();
-  // eslint-disable-next-line
-  }, []);
+    if (user?.token) {
+      fetchUsers();
+    }
+  }, [user]);
 
   const toggleStatus = async (userId, currentStatus) => {
     try {

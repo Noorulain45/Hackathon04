@@ -15,7 +15,7 @@ const ManageContent = () => {
   const fetchVideos = async () => {
     try {
       if (!user?.token) return;
-      const res = await fetch('http://localhost:5000/api/videos/admin', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/videos/admin`, {
         headers: {
           Authorization: `Bearer ${user.token}`
         }

@@ -34,8 +34,8 @@ const AdminDashboard = () => {
         
         // Parallel fetching
         const [usersRes, videosRes] = await Promise.all([
-          fetch('http://localhost:5000/api/users', opts),
-          fetch('http://localhost:5000/api/videos') // videos is public in backend controller
+          fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/users`, opts),
+          fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/videos/admin`, opts)
         ]);
 
         if(usersRes.ok && videosRes.ok) {

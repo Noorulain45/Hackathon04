@@ -11,15 +11,27 @@ function processDir(directory) {
             processDir(fullPath);
         } else if (file.isFile() && fullPath.endsWith('.jsx')) {
             let content = fs.readFileSync(fullPath, 'utf8');
-            if (content.includes('http://localhost:5000')) {
-                // Replace string literal 'http://localhost:5000' with a variable expression
-                // We use template literals or replace the exact string "http://localhost:5000" and 'http://localhost:5000'
-                content = content.replace(/"http:\/\/localhost:5000"/g, '(import.meta.env.VITE_API_URL || "http://localhost:5000")');
-                content = content.replace(/'http:\/\/localhost:5000'/g, '(import.meta.env.VITE_API_URL || "http://localhost:5000")');
-                
-                // Also handle cases where it's part of a template string like `http://localhost:5000/api...`
-                content = content.replace(/`http:\/\/localhost:5000/g, '`${import.meta.env.VITE_API_URL || "http://localhost:5000"}');
+            let modified = false;
 
+            const sRegex = /'http:\/\/localhost:5000([^']*)'/g;
+            if(sRegex.test(content)) {
+                content = content.replace(sRegex, '`${import.meta.env.VITE_API_URL || "http://localhost:5000"}$1`');
+                modified = true;
+            }
+
+            const dRegex = /"http:\/\/localhost:5000([^"]*)"/g;
+            if(dRegex.test(content)) {
+                content = content.replace(dRegex, '`${import.meta.env.VITE_API_URL || "http://localhost:5000"}$1`');
+                modified = true;
+            }
+
+            const bRegex = /`http:\/\/localhost:5000([^`]*)`/g;
+            if (bRegex.test(content)) {
+                content = content.replace(bRegex, '`${import.meta.env.VITE_API_URL || "http://localhost:5000"}$1`');
+                modified = true;
+            }
+
+            if (modified) {
                 fs.writeFileSync(fullPath, content, 'utf8');
                 console.log('Updated:', fullPath);
             }
@@ -28,4 +40,3 @@ function processDir(directory) {
 }
 
 processDir(dir);
-console.log('Done replacing URLs');
